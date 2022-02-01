@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EmailService {
@@ -48,5 +50,9 @@ public class EmailService {
             e.printStackTrace();
             throw new Exception();
         }
+    }
+
+    public Optional<EmailModel> getEmail(UUID id) {
+        return repository.findById(id);
     }
 }
