@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface EmailRepository extends JpaRepository<EmailModel, UUID> {
+    EmailModel findFirstByAddressOrderBySendTimeDesc(String address);
 }

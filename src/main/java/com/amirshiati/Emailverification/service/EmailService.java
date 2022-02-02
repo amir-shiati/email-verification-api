@@ -55,4 +55,12 @@ public class EmailService {
     public Optional<EmailModel> getEmail(UUID id) {
         return repository.findById(id);
     }
+
+    public boolean isValid(String email, String code) {
+        EmailModel emailModel = repository.findFirstByAddressOrderBySendTimeDesc(email);
+        if (emailModel.getCode().equals(code) && LocalDateTime.now().isBefore(emailModel.getValidTime()))
+            return true;
+
+        return false;
+    }
 }
