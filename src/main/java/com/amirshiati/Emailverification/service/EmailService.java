@@ -2,9 +2,12 @@ package com.amirshiati.Emailverification.service;
 
 import com.amirshiati.Emailverification.config.CodeConfig;
 import com.amirshiati.Emailverification.entity.EmailModel;
+import com.amirshiati.Emailverification.exception.ApiRequestException;
 import com.amirshiati.Emailverification.helper.CodeGeneratorHelper;
 import com.amirshiati.Emailverification.helper.JavaMailSenderHelper;
 import com.amirshiati.Emailverification.repository.EmailRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,22 +24,25 @@ public class EmailService {
     private final CodeGeneratorHelper codeGeneratorHelper;
     private final JavaMailSenderHelper mailSenderHelper;
     private final CodeConfig codeConfig;
+    private final ObjectMapper objectMapper;
 
 
     @Autowired
-    public EmailService(EmailRepository repository, CodeGeneratorHelper codeGeneratorHelper, JavaMailSenderHelper mailSenderHelper, CodeConfig codeConfig) {
+    public EmailService(EmailRepository repository, CodeGeneratorHelper codeGeneratorHelper, JavaMailSenderHelper mailSenderHelper, CodeConfig codeConfig, ObjectMapper objectMapper) {
         this.repository = repository;
         this.codeGeneratorHelper = codeGeneratorHelper;
         this.mailSenderHelper = mailSenderHelper;
         this.codeConfig = codeConfig;
+        this.objectMapper = objectMapper;
     }
 
     public List<EmailModel> getAll() {
         return repository.findAll();
     }
 
-    public EmailModel sendCode(String email) throws Exception {
+    public EmailModel sendCode(String email) {
         String code = codeGeneratorHelper.getCode();
+
         try {
             mailSenderHelper.sendEmailWithAttachment(email, "Test", code);
             LocalDateTime time = LocalDateTime.now();
@@ -46,9 +52,8 @@ public class EmailService {
             emailModel.setSendTime(time);
             emailModel.setValidTime(time.plusMinutes(codeConfig.getValidForMinutes()));
             return repository.save(emailModel);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new Exception();
+        } catch (Exception e) {
+            throw new ApiRequestException(e.getMessage());
         }
     }
 
@@ -56,11 +61,13 @@ public class EmailService {
         return repository.findById(id);
     }
 
-    public boolean isValid(String email, String code) {
-        EmailModel emailModel = repository.findFirstByAddressOrderBySendTimeDesc(email);
-        if (emailModel.getCode().equals(code) && LocalDateTime.now().isBefore(emailModel.getValidTime()))
-            return true;
+    public ObjectNode isValid(String email, String code) {
+        ObjectNode objectNode = objectMapper.createObjectNode();
 
-        return false;
+        EmailModel emailModel = repository.findFirstByAddressOrderBySendTimeDesc(email);
+        boolean valid = emailModel.getCode().equals(code) && LocalDateTime.now().isBefore(emailModel.getValidTime());
+
+        objectNode.put("valid", valid);
+        return objectNode;
     }
 }
