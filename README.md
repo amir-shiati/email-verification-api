@@ -117,6 +117,7 @@ code:
 - [ ] Add post configuration
 - [ ] Add a queue
 - [ ] Add support for bulk validation
+- [ ] Dockerize the project
 
 
 
