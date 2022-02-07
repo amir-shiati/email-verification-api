@@ -1,1 +1,1 @@
-# email-verification-api
+# Email verification API
