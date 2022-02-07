@@ -111,5 +111,12 @@ code:
 **All the endpoints have been secured using jwt.**
 
 # Endpoints
+[Here is the documentation ](https://github.com/amir-shiati/email-verification-api/blob/main/doc.md)
+
+# TODO
+- [ ] Add post configuration
+- [ ] Add a queue
+- [ ] Add support for bulk validation
+
 
 
