@@ -1,0 +1,56 @@
+smtp:
+  # your smtp server host
+  host: smtp.your-domain.com
+  # your smtp server port
+  port: 587
+  # your smtp server username
+  username: your-smtp-username
+  # your smtp server password
+  password: your-smtp-password
+
+mail:
+  smtp-auth: true
+  starttls-enable: true
+  debug: true
+  transport-protocol: smtp
+
+code:
+  # the length of the code
+  length: 6
+  # should it contain digits?
+  digits: true
+  # should it contain uppercase letters?
+  upper: false
+  # should it contain lowercase letters?
+  lower: false
+  # How long should the code be valid?
+  valid-for-minutes: 5
+
+html:
+  template:
+    # path to the html template
+    path: src/main/resources/templates/
+    # name of the html template file
+    file-name: template
+    # name of the variable used for code inside the html template
+    variable-name: code
+
+datasource:
+  # database url
+  jdbc-url: jdbc:postgresql://localhost:5432/your-database-name
+  # database username
+  username: your-database-username
+  # database password
+  password: your-database-password
+
+security:
+  jwt:
+    # jwt username (used to get jwt authentication token)
+    username: changeme
+    # jwt password (used to get jwt authentication token)
+    password: changeme
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-only
