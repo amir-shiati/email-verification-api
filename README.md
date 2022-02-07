@@ -12,7 +12,7 @@ A **Fast, Secure, Ready to use, Highly customizable** email verifier API.
 
     git clone https://github.com/amir-shiati/email-verification-api.git
 
-### [Edit the configuration file](#Edit the configuration file)
+### [Edit the configuration file](#Edit-the-configuration-file)
 
     vi email-verification-api/src/main/resources/application.yml
 
