@@ -1,0 +1,39 @@
+FROM ubuntu:20.04
+
+WORKDIR /
+
+
+RUN apt-get update \
+    && apt-get install -y maven default-jdk default-jre \
+    && apt-get clean \
+    && rm -rf /var/lib/{apt,dpkg,cache,log}/
+
+# SMTP args
+ARG SMTP_HOST_ADDRESS
+ARG SMTP_SERVER_PORT=587
+ARG SMTP_USRENAME=default
+ARG SMTP_PASSWORD=default
+
+# Database args
+ARG DATABASE_URL
+ARG DATABASE_USERNAME=default
+ARG DATABASE_PASSWORD=default
+
+# JWT args
+ARG JWT_USERNAME=default
+ARG JWT_PASSWORD=default
+
+ENV SMTP_HOST_ADDRESS=$SMTP_HOST_ADDRESS \
+    SMTP_SERVER_PORT=$SMTP_SERVER_PORT \
+    SMTP_USRENAME=$SMTP_USRENAME \
+    SMTP_PASSWORD=$SMTP_PASSWORD \
+    DATABASE_URL=$DATABASE_URL \
+    DATABASE_USERNAME=$DATABASE_USERNAME \
+    DATABASE_PASSWORD=$DATABASE_PASSWORD \
+    JWT_USERNAME=$JWT_USERNAME \
+    JWT_PASSWORD=$JWT_PASSWORD
+
+COPY ../ /
+
+CMD ['mvn spring-boot:run']
+
