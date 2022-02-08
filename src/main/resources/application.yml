@@ -1,12 +1,12 @@
 smtp:
   # your smtp server host
-  host: smtp.your-domain.com
+  host: ${SMTP_HOST_ADDRESS}
   # your smtp server port
-  port: 587
+  port: ${SMTP_SERVER_PORT}
   # your smtp server username
-  username: your-smtp-username
+  username: ${SMTP_USRENAME}
   # your smtp server password
-  password: your-smtp-password
+  password: ${SMTP_PASSWORD}
 
 mail:
   smtp-auth: true
@@ -37,18 +37,18 @@ html:
 
 datasource:
   # database url
-  jdbc-url: jdbc:postgresql://localhost:5432/your-database-name
+  jdbc-url: ${DATABASE_URL}
   # database username
-  username: your-database-username
+  username: ${DATABASE_USERNAME}
   # database password
-  password: your-database-password
+  password: ${DATABASE_PASSWORD}
 
 security:
   jwt:
     # jwt username (used to get jwt authentication token)
-    username: changeme
+    username: ${JWT_USERNAME}
     # jwt password (used to get jwt authentication token)
-    password: changeme
+    password: ${JWT_PASSWORD}
 
 spring:
   jpa:
